@@ -11,6 +11,8 @@ import { CliConfig } from '../models/config';
 import { getAppFromConfig } from '../utilities/app-utils';
 import { statsToString, statsWarningsToString, statsErrorsToString } from '../utilities/stats';
 
+import { DashboardPlugin } from 'webpack-dashboard/plugin';
+
 const WebpackDevServer = require('webpack-dev-server');
 const Task = require('../ember-cli/lib/models/task');
 const SilentError = require('silent-error');
@@ -270,6 +272,8 @@ export default Task.extend({
           this.ui.writeError(statsErrorsToString(json, statsConfig));
         }
       });
+
+      webpackCompiler.apply(new DashboardPlugin());
     }
 
     return new Promise((_resolve, reject) => {
